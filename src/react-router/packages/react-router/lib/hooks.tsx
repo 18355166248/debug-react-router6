@@ -313,6 +313,8 @@ export function useRoutes(
   let { navigator } = React.useContext(NavigationContext);
   let dataRouterStateContext = React.useContext(DataRouterStateContext);
   let { matches: parentMatches } = React.useContext(RouteContext);
+  console.log("dataRouterStateContext", dataRouterStateContext);
+  console.log("RouteContext", RouteContext);
   let routeMatch = parentMatches[parentMatches.length - 1];
   let parentParams = routeMatch ? routeMatch.params : {};
   let parentPathname = routeMatch ? routeMatch.pathname : "/";
@@ -380,9 +382,8 @@ export function useRoutes(
     parentPathnameBase === "/"
       ? pathname
       : pathname.slice(parentPathnameBase.length) || "/";
-
+  console.log("remainingPathname", remainingPathname);
   let matches = matchRoutes(routes, { pathname: remainingPathname });
-
   if (__DEV__) {
     warning(
       parentRoute || matches != null,
@@ -424,7 +425,6 @@ export function useRoutes(
     parentMatches,
     dataRouterStateContext || undefined
   );
-
   // When a user passes in a `locationArg`, the associated routes need to
   // be wrapped in a new `LocationContext.Provider` in order for `useLocation`
   // to use the scoped location instead of the global location.
@@ -584,6 +584,7 @@ export function _renderMatches(
   parentMatches: RouteMatch[] = [],
   dataRouterState?: RemixRouter["state"]
 ): React.ReactElement | null {
+  console.log("matches", matches);
   if (matches == null) {
     if (dataRouterState?.errors) {
       // Don't bail if we have data router errors so we can render them in the

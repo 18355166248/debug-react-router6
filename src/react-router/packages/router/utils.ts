@@ -331,6 +331,7 @@ export function matchRoutes<
   rankRouteBranches(branches);
 
   let matches = null;
+  console.log("branches", branches);
   for (let i = 0; matches == null && i < branches.length; ++i) {
     matches = matchRouteBranch<string, RouteObjectType>(
       branches[i],

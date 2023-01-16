@@ -382,6 +382,7 @@ export function Routes({
     dataRouterContext && !children
       ? (dataRouterContext.router.routes as DataRouteObject[])
       : createRoutesFromChildren(children);
+  console.log(routes)
   return useRoutes(routes, location);
 }
 

@@ -10,30 +10,13 @@ import {
 } from "react-router-dom";
 import { fakeAuthProvider } from "./auth";
 
-console.log("Route", Route);
-
 export default function App() {
   return (
     <AuthProvider>
-      <h1>Auth Example</h1>
-
       <p>
         This example demonstrates a simple login flow with three pages: a public
         page, a protected page, and a login page. In order to see the protected
         page, you must first login. Pretty standard stuff.
-      </p>
-
-      <p>
-        First, visit the public page. Then, visit the protected page. You're not
-        yet logged in, so you are redirected to the login page. After you login,
-        you are redirected back to the protected page.
-      </p>
-
-      <p>
-        Notice the URL change each time. If you click the back button at this
-        point, would you expect to go back to the login page? No! You're already
-        logged in. Try it out, and you'll see you go back to the page you
-        visited just *before* logging in, the public page.
       </p>
 
       <Routes>
@@ -47,7 +30,9 @@ export default function App() {
                 <ProtectedPage />
               </RequireAuth>
             }
-          />
+          >
+            <Route path="/protected/test1" element={<Test1 />} />
+          </Route>
         </Route>
       </Routes>
     </AuthProvider>
@@ -55,6 +40,10 @@ export default function App() {
 }
 
 function Layout() {
+  let navigate = useNavigate();
+  function push1() {
+    navigate("/protected/test1");
+  }
   return (
     <div>
       <AuthStatus />
@@ -65,6 +54,9 @@ function Layout() {
         </li>
         <li>
           <Link to="/protected">Protected Page</Link>
+        </li>
+        <li>
+          <span onClick={push1}>Protected Page (Test1)</span>
         </li>
       </ul>
 
@@ -175,7 +167,7 @@ function LoginPage() {
       <form onSubmit={handleSubmit}>
         <label>
           Username: <input name="username" type="text" />
-        </label>{" "}
+        </label>
         <button type="submit">Login</button>
       </form>
     </div>
@@ -187,5 +179,16 @@ function PublicPage() {
 }
 
 function ProtectedPage() {
-  return <h3>Protected</h3>;
+  return (
+    <h3>
+      Protected
+      <div>
+        <Outlet />
+      </div>
+    </h3>
+  );
+}
+
+function Test1() {
+  return <div>Test1</div>;
 }
